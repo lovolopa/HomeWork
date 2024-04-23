@@ -3,7 +3,7 @@ from masks import masck_for_account, mask_for_card
 
 def mask_for_card_or_account(number_input: str) -> str:
     """
-    данная функция максирует у счета либо карты номер
+    Данная функция максирует у счета либо карты номер
     """
     num = number_input.split(" ")
     if num[0] == "Счет":
@@ -14,7 +14,7 @@ def mask_for_card_or_account(number_input: str) -> str:
 
 def data_split(data: str) -> str:
     """
-    эта функция разделяет дату по букве 'Т' а потом еще по '-' и вывводит дату через точку
+    Эта функция разделяет дату по букве 'Т' а потом еще по '-' и вывводит дату через точку
     """
     split_data = data.split("T")
     day_month_year = split_data[0].split("-")
