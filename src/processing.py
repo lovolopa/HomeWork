@@ -22,5 +22,5 @@ def sort_by_date(data: list[dict], reverse: bool = True) -> list[dict]:
     return sorted(data, key=lambda item: datetime.fromisoformat(item["date"]), reverse=reverse)
 
 
-print(filter_by_state(datas))
-print(sort_by_date(datas))
+# print(filter_by_state(datas))
+# print(sort_by_date(datas))

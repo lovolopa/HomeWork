@@ -21,6 +21,6 @@ def data_split(data: str) -> str:
     return f"{day_month_year[2]}.{day_month_year[1]}.{day_month_year[0]}"
 
 
-print(mask_for_card_or_account("Счет 64686473678894779589"))
-print(mask_for_card_or_account("Visa Classic 6831982476737658"))
-print(data_split("2018-07-11T02:26:18.671407"))
+# print(mask_for_card_or_account("Счет 64686473678894779589"))
+# print(mask_for_card_or_account("Visa Classic 6831982476737658"))
+# print(data_split("2018-07-11T02:26:18.671407"))
