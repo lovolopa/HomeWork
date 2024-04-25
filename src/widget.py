@@ -1,4 +1,4 @@
-from masks import masck_for_account, mask_for_card
+from src.masks import masck_for_account, mask_for_card
 
 
 def mask_for_card_or_account(number_input: str) -> str:
