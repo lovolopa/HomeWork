@@ -1,6 +1,6 @@
 import pytest
 
-from src.widget import mask_for_card_or_account, data_split
+from src.widget import data_split, mask_for_card_or_account
 
 
 @pytest.fixture
