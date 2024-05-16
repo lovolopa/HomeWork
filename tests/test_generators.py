@@ -1,5 +1,5 @@
-import pytest
 from src.generators import card_number_generator, filter_by_currency, transaction_descriptions, transactions
+
 
 usd_transactions = filter_by_currency(transactions, "USD")
 descriptions = transaction_descriptions(transactions)
@@ -18,6 +18,7 @@ def test_card_number_generator() -> None:
     assert next(cards) == "0000000000000003"
     assert next(cards) == "0000000000000004"
     assert next(cards) == "0000000000000005"
+
 
 def test_transactions_for_test() -> None:
     assert next(descriptions) == "Перевод организации"

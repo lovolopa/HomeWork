@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Iterator
+from typing import Any, Dict, Iterator, List
 
 transactions = [
     {
@@ -53,8 +53,10 @@ def filter_by_currency(list_of_dictionaries: List[Dict[str, Any]], code: str) ->
     """
     Функция, которая возвращает идентификаторы транзакций по коду валюты
     """
-    return (transaction["id"] for transaction in
-            filter(lambda x: x["operationAmount"]["currency"]["code"] == code, list_of_dictionaries))
+    return (
+        transaction["id"]
+        for transaction in filter(lambda x: x["operationAmount"]["currency"]["code"] == code, list_of_dictionaries)
+    )
 
 
 def transaction_descriptions(transaction: List[Dict[str, Any]]) -> Iterator[str]:
