@@ -3,6 +3,10 @@ from typing import Dict, List
 
 import requests
 
+from src.logger import logger_setup
+
+logger = logger_setup()
+
 
 def load_operations(file_path: str) -> List[Dict]:
     """
@@ -12,10 +16,13 @@ def load_operations(file_path: str) -> List[Dict]:
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
             if isinstance(data, list):
+                logger.info("Функция load_operations рабоатет успешно")
                 return data
             else:
+                logger.error("С функций load_operations что-то не так")
                 return []
     except FileNotFoundError:
+        logger.error("Ошибка не выводит файл исправь и возвращайся снова")
         return []
 
 
@@ -26,6 +33,7 @@ def convert_amount(operation: Dict) -> float:
     amount = float(operation["operationAmount"]["amount"])
     currency = operation["operationAmount"]["currency"]["code"]
     if currency == "RUB":
+        logger.info("Функция convert_amount работает успешно")
         return amount
     elif currency == "USD" or currency == "EUR":
         url = "https://www.cbr-xml-daily.ru/daily_json.js"
@@ -34,25 +42,25 @@ def convert_amount(operation: Dict) -> float:
         data = response.json()
         if currency == "USD":
             usd_rate = float(data["Valute"]["USD"]["Value"])
+            logger.info("Функция convert_amount работает успешно")
             return amount * usd_rate
         elif currency == "EUR":
             eur_rate = float(data["Valute"]["EUR"]["Value"])
+            logger.info("Функция convert_amount работает успешно")
             return amount * eur_rate
     return 0.0
 
 
-# Пример использования
-dict_for_test = [
-    {
-        "id": 441945886,
-        "state": "EXECUTED",
-        "date": "2019-08-26T10:50:58.294041",
-        "operationAmount": {"amount": 9, "currency": {"name": "USD", "code": "USD"}},
-    }
-]
+value = {
+    "id": 441945886,
+    "state": "EXECUTED",
+    "date": "2019-08-26T10:50:58.294041",
+    "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}},
+    "description": "Перевод организации",
+    "from": "Maestro 1596837868705199",
+    "to": "Счет 64686473678894779589",
+}
 
-operations = load_operations("../data/operations.json")
-print(operations)
 
-amount_in_rubles = convert_amount(dict_for_test[0])
-print(amount_in_rubles)
+# Проверка
+convert_amount(value)
