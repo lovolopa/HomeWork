@@ -5,11 +5,11 @@ from src.masks import masck_for_account, mask_for_card
 
 @pytest.fixture
 def bill_num() -> str:
-    return "1234567890"
+    return "123456789012345678901"
 
 
 def test_account_mask(bill_num: str) -> None:
-    assert masck_for_account(bill_num) == "**7890"
+    assert masck_for_account(bill_num) == "**8901"
 
 
 @pytest.mark.parametrize(
