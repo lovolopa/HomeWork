@@ -1,21 +1,22 @@
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
-from src.utils import convert_amount, load_operations
+from src.utils import convert_amount, read_transaction_from_file_json
 
 
 class TestUtils(unittest.TestCase):
     @patch("json.load")
     def test_load_operations_returns_empty_list_on_invalid_data(self, mock_load: unittest.mock.Mock) -> None:
         mock_load.return_value = {"invalid": "data"}
-        operations = load_operations("data/operations.json")
+        operations = read_transaction_from_file_json(Path("data/operations.json"))
         self.assertIsInstance(operations, list)
         self.assertEqual(len(operations), 0)
 
     @patch("json.load")
     def test_load_operations_returns_empty_list_on_file_not_found(self, mock_load: unittest.mock.Mock) -> None:
         mock_load.side_effect = FileNotFoundError
-        operations = load_operations("data/operations.json")
+        operations = read_transaction_from_file_json(Path("data/operations.json"))
         self.assertIsInstance(operations, list)
         self.assertEqual(len(operations), 0)
 

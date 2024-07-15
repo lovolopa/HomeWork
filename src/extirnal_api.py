@@ -7,7 +7,7 @@ from src.logger import logger_setup
 logger = logger_setup()
 
 
-def convert_amount(operation: Dict) -> float:
+def convert_amount_(operation: Dict) -> float:
     """
     Функция конвертирует сумму транзакции в рубли.
     """

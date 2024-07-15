@@ -1,6 +1,6 @@
 import pytest
 
-from src.widget import data_split, mask_for_card_or_account
+from src.widget import convert_datetime_to_date, mask_for_card_or_account
 
 
 @pytest.fixture
@@ -18,4 +18,4 @@ def input_data() -> str:
 
 
 def test_data_split(input_data: str) -> None:
-    assert data_split(input_data) == "11.07.2018"
+    assert convert_datetime_to_date(input_data) == "11.07.2018"

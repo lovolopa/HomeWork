@@ -1,28 +1,24 @@
 import json
-from typing import Dict, List
+from pathlib import Path
+from typing import Any, Dict
 
-import requests
-
+from src.extirnal_api import convert_amount_
 from src.logger import logger_setup
 
 logger = logger_setup()
 
 
-def load_operations(file_path: str) -> List[Dict]:
-    """
-    Функция загружает данные о финансовых транзакциях из JSON-файла.
-    """
+def read_transaction_from_file_json(file_path: Path) -> Any:
+    """Считывает транзакции из JSON-файла."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             data = json.load(f)
-            if isinstance(data, list):
-                logger.info("Функция load_operations рабоатет успешно")
-                return data
-            else:
-                logger.error("С функций load_operations что-то не так")
-                return []
-    except FileNotFoundError:
-        logger.error("Ошибка не выводит файл исправь и возвращайся снова")
+        if isinstance(data, list):
+            return data
+        else:
+            return []
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        logger.error(f"Ошибка при чтении JSON-файла: {e}")
         return []
 
 
@@ -30,25 +26,20 @@ def convert_amount(operation: Dict) -> float:
     """
     Функция конвертирует сумму транзакции в рубли.
     """
-    amount = float(operation["operationAmount"]["amount"])
-    currency = operation["operationAmount"]["currency"]["code"]
-    if currency == "RUB":
-        logger.info("Функция convert_amount работает успешно")
-        return amount
-    elif currency == "USD" or currency == "EUR":
-        url = "https://www.cbr-xml-daily.ru/daily_json.js"
-        response = requests.get(url)
-        response.raise_for_status()
-        data = response.json()
-        if currency == "USD":
-            usd_rate = float(data["Valute"]["USD"]["Value"])
-            logger.info("Функция convert_amount работает успешно")
-            return amount * usd_rate
-        elif currency == "EUR":
-            eur_rate = float(data["Valute"]["EUR"]["Value"])
-            logger.info("Функция convert_amount работает успешно")
-            return amount * eur_rate
-    return 0.0
+    total = 0.0
+    operation_sum = operation.get("operationAmount", {})
+    currency_code = operation_sum.get("currency", {}).get("code", "")
+    amount = float(operation_sum.get("amount", 0.0))
+    if currency_code in ["USD", "EUR"]:
+        rate_to_rub = convert_amount_(currency_code)
+        total += amount * rate_to_rub
+    elif currency_code == "RUB":
+        total += amount
+        logger.info("Function sum_amount completed successfully")
+        return total
+    else:
+        logger.error("Something went wrong with the sum_amount function: %(error)s")
+    return total
 
 
 value = {

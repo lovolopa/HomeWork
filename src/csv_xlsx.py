@@ -1,16 +1,16 @@
+import csv
 from typing import Any
 
 import pandas as pd
 
 
-def read_file_csv(filename: Any) -> Any:
-    """Читает file scv и возвращает список"""
-    if filename.endswith(".csv"):
-        open_ = pd.read_csv(filename, encoding="utf-8")
-        transactions = open_.to_dict(orient="records")
-        return transactions
-    else:
-        return []
+def read_file_csv(file_path: str) -> Any:
+    poos = []
+    with open(file_path, encoding="utf-8") as file:
+        reader = csv.DictReader(file, delimiter=";")
+        for row in reader:
+            poos.append(row)
+    return poos
 
 
 def read_file_xlsx(file: Any) -> Any:

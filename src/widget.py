@@ -12,10 +12,7 @@ def mask_for_card_or_account(number_input: str) -> str:
         return f"{' '.join(num[:-1])} {mask_for_card(num[-1])}"
 
 
-def data_split(data: str) -> str:
-    """
-    Эта функция разделяет дату по букве 'Т', а потом еще по '-' и вывводит дату через точку
-    """
-    split_data = data.split("T")
-    day_month_year = split_data[0].split("-")
-    return f"{day_month_year[2]}.{day_month_year[1]}.{day_month_year[0]}"
+def convert_datetime_to_date(datetime_string: str) -> str:
+    """Функция, которая принимает строку и возвращает строку с датой"""
+    date_parts = datetime_string.split("T")[0].split("-")
+    return f"{date_parts[2]}.{date_parts[1]}.{date_parts[0]}"
